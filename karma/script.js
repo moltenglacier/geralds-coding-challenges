@@ -11,13 +11,12 @@ var $$ = {
   compare: function (a, b){
     return b.points - a.points;
   },
-  // modifyPointsFor(0, 2);
   modifyPointsFor: function(indexInArray, newPoints) {
     this.data[indexInArray].points = newPoints;
     this.storeData();
-    this.cloner();
+    this.redrawUI();
   },
-  cloner: function(){
+  redrawUI: function(){
     $("#ppl").empty();
     var sorted = $$.leaderboard();
     var $template = $(".person:first"), $clonedLi;
@@ -35,17 +34,15 @@ var $$ = {
   },
   eventHandler: function(){
     $("#ppl").on("dblclick", ".points", function(event) {
-        $(this).hide();
-        $(this).parent(".person").find(".input").show(); //problem
+        $(this).hide().siblings(".input").show();
     }).on("keyup", "input", function(event) {
       if (event.which === 13) {
-        var person = $(this).parents(".person");
-        var personIndex = person.data("order"); //problem
-        var newVal = $(this).val();
+        var $input = $(this);
+        var person = $input.parents(".person");
+        var personIndex = person.data("order");
+        var newVal = $input.val();
         $$.modifyPointsFor(personIndex, newVal);
-        $(this).parent().prev(".points").text(newVal); //problem
-        $(this).parent().hide(); //problem
-        $(".points").show();
+        $input.parent().hide().prev(".points").text(newVal).show();
       }
     });
   },
@@ -56,7 +53,7 @@ var $$ = {
 
 $(document).ready(function() {
   $$.readData();
-  $$.cloner();
+  $$.redrawUI();
   $$.eventHandler();
 
 
