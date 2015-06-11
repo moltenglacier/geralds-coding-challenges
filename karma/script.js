@@ -18,38 +18,36 @@ var $$ = {
     this.cloner();
   },
   cloner: function(){
-  $("#ppl").empty();
-  var sorted = $$.leaderboard();
-  var $template = $(".person:first"), $clonedLi;
-  var ppl = sorted.map(function(p, i) {
-    $clonedLi = $template.clone().show();
-    $clonedLi.data("order", i);
-    $clonedLi.find(".name").text(p.name);
-    $clonedLi.find(".points").text(p.points);
-    $clonedLi.find("input").val(p.points);
-    return $clonedLi;
-  });
+    $("#ppl").empty();
+    var sorted = $$.leaderboard();
+    var $template = $(".person:first"), $clonedLi;
+    var ppl = sorted.map(function(p, i) {
+      $clonedLi = $template.clone().show();
+      $clonedLi.data("order", i);
+      $clonedLi.find(".name").text(p.name);
+      $clonedLi.find(".points").text(p.points);
+      $clonedLi.find("input").val(p.points);
+      return $clonedLi;
+    });
 
-  $("#ppl").append(ppl);
+    $("#ppl").append(ppl);
 
   },
   eventHandler: function(){
-      $("#ppl").on("dblclick", ".points", function(event) {
-          $(this).hide();
-          $(this).parent(".person").find(".input").show(); //problem
-      }).on("keyup", "input", function(event) {
-        if (event.which === 13) {
-            var person = $(this).parents(".person");
-            var personIndex = person.data("order"); //problem
-            var newVal = $(this).val();
-            $$.modifyPointsFor(personIndex, newVal); 
-            $(this).parent().prev(".points").text(newVal); //problem
-            $(this).parent().hide(); //problem
-            $(".points").show();
-
-        }
-      });
-
+    $("#ppl").on("dblclick", ".points", function(event) {
+        $(this).hide();
+        $(this).parent(".person").find(".input").show(); //problem
+    }).on("keyup", "input", function(event) {
+      if (event.which === 13) {
+        var person = $(this).parents(".person");
+        var personIndex = person.data("order"); //problem
+        var newVal = $(this).val();
+        $$.modifyPointsFor(personIndex, newVal);
+        $(this).parent().prev(".points").text(newVal); //problem
+        $(this).parent().hide(); //problem
+        $(".points").show();
+      }
+    });
   },
 
   data: []
@@ -63,14 +61,3 @@ $(document).ready(function() {
 
 
 })
-
-
-
-
-
-
-
-
-
-
-
